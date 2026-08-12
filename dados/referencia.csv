@@ -1,0 +1,9 @@
+id_transacao,data_hora,valor,forma_pagamento,parcelas,categoria_estabelecimento,canal,id_cliente,id_estabelecimento,primeira_compra_estabelecimento,fraude
+TX-REF-001,2026-01-10T14:22:00,89.90,pix,1,alimentacao,presencial,CLI-1001,EST-2001,false,0
+TX-REF-002,2026-01-11T02:15:00,3499.00,cartao_credito,12,eletronicos,online,CLI-1002,EST-2002,true,1
+TX-REF-003,2026-01-12T19:40:00,159.50,cartao_debito,1,vestuario,presencial,CLI-1003,EST-2003,false,0
+TX-REF-004,2026-01-13T23:05:00,2200.00,boleto,1,eletronicos,online,CLI-1004,EST-2004,true,1
+TX-REF-005,2026-01-14T11:30:00,45.00,pix,1,alimentacao,online,CLI-1005,EST-2005,false,0
+TX-REF-006,2026-01-15T16:00:00,780.00,ted,1,servicos,online,CLI-1006,EST-2006,true,0
+TX-REF-007,2026-01-16T03:20:00,5100.00,cartao_credito,10,eletronicos,online,CLI-1007,EST-2007,true,1
+TX-REF-008,2026-01-17T12:10:00,120.00,cartao_debito,1,servicos,presencial,CLI-1008,EST-2008,false,0

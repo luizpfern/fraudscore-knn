@@ -1,0 +1,29 @@
+# Dependências
+node_modules/
+
+# Saídas geradas em tempo de execução
+armazenamento/processado/*
+!armazenamento/processado/.gitkeep
+resultados/*
+!resultados/.gitkeep
+
+# Logs e arquivos temporários
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Ambiente
+.env
+.env.*
+
+# Editores / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Cobertura / cache de ferramentas
+coverage/
+.eslintcache
+.prettiercache

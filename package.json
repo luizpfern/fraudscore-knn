@@ -1,0 +1,24 @@
+{
+  "name": "fraudscore-knn",
+  "version": "0.1.0",
+  "description": "Detecção de fraude em transações financeiras via classificação por vizinhança (k-NN)",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "preprocess": "node scripts/preprocessar.js",
+    "analyze": "node scripts/analisar.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "csv-parse": "^5.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.4.0"
+  }
+}

@@ -1,0 +1,4 @@
+id_transacao,data_hora,valor,forma_pagamento,parcelas,categoria_estabelecimento,canal,id_cliente,id_estabelecimento,primeira_compra_estabelecimento
+TX-IN-001,2026-03-14T02:35:00,4200.00,cartao_credito,12,eletronicos,online,CLI-9001,EST-3001,true
+TX-IN-002,2026-03-14T13:10:00,67.40,pix,1,alimentacao,presencial,CLI-9002,EST-3002,false
+TX-IN-003,2026-03-15T22:48:00,1890.00,boleto,1,eletronicos,online,CLI-9003,EST-3003,true
