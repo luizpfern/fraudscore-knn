@@ -43,21 +43,21 @@ export function calcularScoreFraude(
     throw new Error(`Parâmetro k inválido: esperado inteiro >= 1. Recebido: ${k}.`);
   }
 
-  // TODO: para cada vetor de referência, calcular distanciaEuclidiana(vetorConsulta, ref.vetor).
-  // TODO: ordenar por distância crescente e selecionar os k mais próximos.
-  // TODO: calcular score = (quantidade de vizinhos com fraude === 1) / k.
-  // TODO: definir aprovado = score < limiar.
-  // TODO: montar a lista `vizinhos` com idTransacao, fraude e distancia (explicabilidade).
+  const kEfetivo = Math.min(k, vetoresReferencia.length);
 
-  void distanciaEuclidiana;
-  void limiar;
+  /** @type {Vizinho[]} */
+  const candidatos = vetoresReferencia.map((ref) => ({
+    idTransacao: ref.idTransacao,
+    fraude: ref.fraude,
+    distancia: distanciaEuclidiana(vetorConsulta, ref.vetor),
+  }));
 
-  /** @type {ResultadoKnn} */
-  const resultado = {
-    score: 0,
-    aprovado: true,
-    vizinhos: [],
-  };
+  candidatos.sort((a, b) => a.distancia - b.distancia);
+  const vizinhos = candidatos.slice(0, kEfetivo);
 
-  return resultado;
+  const fraudesEntreVizinhos = vizinhos.filter((v) => v.fraude === 1).length;
+  const score = fraudesEntreVizinhos / kEfetivo;
+  const aprovado = score < limiar;
+
+  return { score, aprovado, vizinhos };
 }

@@ -1,57 +1,64 @@
+import { ErroAplicacao } from '../utils/erros.js';
+
 /**
  * Transforma um registro de transação validado em um vetor numérico,
  * usando as constantes de normalização da base de referência.
  *
- * Cada posição do vetor deve representar uma feature interpretável —
+ * Cada posição do vetor representa uma feature interpretável —
  * isso facilita a explicação do algoritmo no texto do TCC.
+ *
+ * Dimensões do vetor (índice → significado):
+ * - [0] valor normalizado (min-max com constantes.valor)
+ * - [1] hora do dia normalizada (0–1)
+ * - [2] dia da semana normalizado (0–1; 0=domingo … 6=sábado)
+ * - [3] taxa de risco da forma de pagamento
+ * - [4] parcelas normalizadas (min-max)
+ * - [5] taxa de risco da categoria do estabelecimento
+ * - [6] taxa de risco do canal
+ * - [7] primeira compra no estabelecimento (1 ou 0)
  *
  * @param {import('../dados/validador.js').RegistroTransacao} registro
  * @param {import('./calculadoraConstantes.js').ConstantesNormalizacao} constantes
  * @returns {number[]} Vetor numérico pronto para o cálculo de distância.
  */
 export function vetorizar(registro, constantes) {
-  // Garante que as constantes foram informadas (evita uso acidental sem pré-processamento).
-  if (!constantes || !constantes.valor) {
-    throw new Error('Constantes de normalização ausentes ou incompletas para vetorização.');
+  if (!constantes || !constantes.valor || !constantes.parcelas) {
+    throw new ErroAplicacao(
+      'Constantes de normalização ausentes ou incompletas para vetorização.',
+      { codigo: 'CONSTANTES_AUSENTES' },
+    );
   }
 
-  // TODO: implementar a montagem real do vetor. Esboço das dimensões previstas:
-  //
-  // [0] valor normalizado (ex.: min-max ou z-score usando constantes.valor)
-  // [1] hora do dia normalizada (0–1), derivada de registro.dataHora
-  // [2] dia da semana normalizado (0–1), derivado de registro.dataHora
-  // [3] taxa de risco da forma de pagamento (constantes.formaPagamento[registro.formaPagamento])
-  // [4] número de parcelas normalizado
-  // [5] taxa de risco da categoria do estabelecimento
-  // [6] canal (ex.: online=1, presencial=0) ou taxa de risco do canal
-  // [7] primeira compra no estabelecimento (1 ou 0)
-  //
-  // Ajuste as dimensões conforme a modelagem final do TCC e documente cada índice.
+  const dataHora = registro.dataHora instanceof Date
+    ? registro.dataHora
+    : new Date(registro.dataHora);
 
-  void registro;
-  void constantes;
+  const riscoFormaPagamento =
+    constantes.formaPagamento[registro.formaPagamento] ?? constantes.taxaFraudeGlobal ?? 0;
+  const riscoCategoria =
+    constantes.categoriaEstabelecimento[registro.categoriaEstabelecimento] ??
+    constantes.taxaFraudeGlobal ??
+    0;
+  const riscoCanal = constantes.canal[registro.canal] ?? constantes.taxaFraudeGlobal ?? 0;
 
-  /** @type {number[]} */
-  const vetor = [
-    // 0: valor normalizado
-    0,
-    // 1: hora do dia normalizada
-    0,
-    // 2: dia da semana normalizado
-    0,
+  return [
+    // 0: valor normalizado (min-max)
+    normalizarMinMax(registro.valor, constantes.valor),
+    // 1: hora do dia (0–1)
+    (dataHora.getHours() + dataHora.getMinutes() / 60) / 24,
+    // 2: dia da semana (0–1)
+    dataHora.getDay() / 6,
     // 3: risco da forma de pagamento
-    0,
-    // 4: parcelas normalizadas
-    0,
+    riscoFormaPagamento,
+    // 4: parcelas normalizadas (min-max)
+    normalizarMinMax(registro.parcelas, constantes.parcelas),
     // 5: risco da categoria do estabelecimento
-    0,
-    // 6: canal / risco do canal
-    0,
+    riscoCategoria,
+    // 6: risco do canal
+    riscoCanal,
     // 7: primeira compra no estabelecimento
-    0,
+    registro.primeiraCompraEstabelecimento ? 1 : 0,
   ];
-
-  return vetor;
 }
 
 /**
@@ -67,4 +74,20 @@ export function vetorizarRegistros(registros, constantes) {
     fraude: registro.fraude,
     vetor: vetorizar(registro, constantes),
   }));
+}
+
+/**
+ * Normalização min-max para o intervalo [0, 1].
+ * Se min === max, retorna 0.5 para evitar divisão por zero.
+ *
+ * @param {number} valor
+ * @param {{ min: number, max: number }} estatisticas
+ * @returns {number}
+ */
+function normalizarMinMax(valor, estatisticas) {
+  const { min, max } = estatisticas;
+  if (max === min) {
+    return 0.5;
+  }
+  return (valor - min) / (max - min);
 }

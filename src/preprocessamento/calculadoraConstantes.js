@@ -1,3 +1,4 @@
+import { FORMAS_PAGAMENTO, CANAIS } from '../config/constantes.js';
 import { ErroAplicacao } from '../utils/erros.js';
 
 /**
@@ -11,11 +12,11 @@ import { ErroAplicacao } from '../utils/erros.js';
 /**
  * @typedef {Object} ConstantesNormalizacao
  * @property {EstatisticasNumericas} valor
- * @property {EstatisticasNumericas} [parcelas]
+ * @property {EstatisticasNumericas} parcelas
  * @property {Object.<string, number>} formaPagamento - Taxa de risco (proporção de fraude) por forma de pagamento.
  * @property {Object.<string, number>} categoriaEstabelecimento - Taxa de risco por categoria.
- * @property {Object.<string, number>} [canal] - Taxa de risco por canal.
- * @property {number} [taxaFraudeGlobal] - Proporção geral de fraude na base.
+ * @property {Object.<string, number>} canal - Taxa de risco por canal.
+ * @property {number} taxaFraudeGlobal - Proporção geral de fraude na base.
  */
 
 /**
@@ -35,32 +36,87 @@ export function calcularConstantes(registrosReferencia) {
     );
   }
 
-  // TODO: calcular estatísticas de `valor` (min, max, média, desvio padrão).
-  // TODO: calcular estatísticas de `parcelas`, se forem usadas no vetor.
-  // TODO: calcular taxa de risco por `forma_pagamento` (fraudes / total na categoria).
-  // TODO: calcular taxa de risco por `categoria_estabelecimento`.
-  // TODO: calcular taxa de risco por `canal`, se for usada no vetor.
-  // TODO: calcular taxa de fraude global da base.
+  const valores = registrosReferencia.map((r) => r.valor);
+  const parcelas = registrosReferencia.map((r) => r.parcelas);
+  const totalFraudes = registrosReferencia.filter((r) => r.fraude === 1).length;
+  const taxaFraudeGlobal = totalFraudes / registrosReferencia.length;
 
-  /** @type {ConstantesNormalizacao} */
-  const constantes = {
-    valor: {
-      min: 0,
-      max: 0,
-      media: 0,
-      desvioPadrao: 0,
-    },
-    parcelas: {
-      min: 0,
-      max: 0,
-      media: 0,
-      desvioPadrao: 0,
-    },
-    formaPagamento: {},
-    categoriaEstabelecimento: {},
-    canal: {},
-    taxaFraudeGlobal: 0,
+  return {
+    valor: calcularEstatisticas(valores),
+    parcelas: calcularEstatisticas(parcelas),
+    formaPagamento: calcularTaxasRiscoPorCampo(
+      registrosReferencia,
+      (r) => r.formaPagamento,
+      FORMAS_PAGAMENTO,
+      taxaFraudeGlobal,
+    ),
+    categoriaEstabelecimento: calcularTaxasRiscoPorCampo(
+      registrosReferencia,
+      (r) => r.categoriaEstabelecimento,
+      null,
+      taxaFraudeGlobal,
+    ),
+    canal: calcularTaxasRiscoPorCampo(
+      registrosReferencia,
+      (r) => r.canal,
+      CANAIS,
+      taxaFraudeGlobal,
+    ),
+    taxaFraudeGlobal,
   };
+}
 
-  return constantes;
+/**
+ * @param {number[]} numeros
+ * @returns {EstatisticasNumericas}
+ */
+function calcularEstatisticas(numeros) {
+  const min = Math.min(...numeros);
+  const max = Math.max(...numeros);
+  const media = numeros.reduce((acc, n) => acc + n, 0) / numeros.length;
+  const variancia =
+    numeros.reduce((acc, n) => acc + (n - media) ** 2, 0) / numeros.length;
+  const desvioPadrao = Math.sqrt(variancia);
+
+  return { min, max, media, desvioPadrao };
+}
+
+/**
+ * Calcula a proporção de fraude em cada valor categórico.
+ * Categorias sem ocorrências recebem a taxa global como fallback.
+ *
+ * @param {import('../dados/validador.js').RegistroTransacao[]} registros
+ * @param {(registro: import('../dados/validador.js').RegistroTransacao) => string} extrairChave
+ * @param {readonly string[] | null} chavesConhecidas - Se informado, garante todas as chaves no resultado.
+ * @param {number} taxaFallback
+ * @returns {Object.<string, number>}
+ */
+function calcularTaxasRiscoPorCampo(registros, extrairChave, chavesConhecidas, taxaFallback) {
+  /** @type {Map<string, { total: number, fraudes: number }>} */
+  const contagem = new Map();
+
+  for (const registro of registros) {
+    const chave = extrairChave(registro);
+    const atual = contagem.get(chave) ?? { total: 0, fraudes: 0 };
+    atual.total += 1;
+    if (registro.fraude === 1) {
+      atual.fraudes += 1;
+    }
+    contagem.set(chave, atual);
+  }
+
+  /** @type {Object.<string, number>} */
+  const taxas = {};
+
+  const chaves = new Set([
+    ...(chavesConhecidas ?? []),
+    ...contagem.keys(),
+  ]);
+
+  for (const chave of chaves) {
+    const stats = contagem.get(chave);
+    taxas[chave] = stats && stats.total > 0 ? stats.fraudes / stats.total : taxaFallback;
+  }
+
+  return taxas;
 }

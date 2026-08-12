@@ -1,6 +1,8 @@
 /**
  * Calcula a distância euclidiana entre dois vetores de mesma dimensionalidade.
  *
+ * Fórmula: √(Σ (a_i - b_i)²)
+ *
  * @param {number[]} vetorA
  * @param {number[]} vetorB
  * @returns {number}
@@ -16,9 +18,11 @@ export function distanciaEuclidiana(vetorA, vetorB) {
     );
   }
 
-  // TODO: implementar √(Σ (a_i - b_i)²) de forma eficiente.
-  // Por enquanto retorna 0 como placeholder para manter a estrutura compilável.
-  void vetorA;
-  void vetorB;
-  return 0;
+  let somaQuadrados = 0;
+  for (let i = 0; i < vetorA.length; i += 1) {
+    const diff = vetorA[i] - vetorB[i];
+    somaQuadrados += diff * diff;
+  }
+
+  return Math.sqrt(somaQuadrados);
 }
