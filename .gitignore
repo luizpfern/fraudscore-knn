@@ -27,3 +27,7 @@ Thumbs.db
 coverage/
 .eslintcache
 .prettiercache
+
+# Interface Electron
+desktop/out/
+desktop/dist/

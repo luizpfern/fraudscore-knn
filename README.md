@@ -241,6 +241,18 @@ Exemplo (trecho):
 
 Se `--formato=csv`, o relatório em `resultados/` traz as colunas `id_transacao`, `score` e `decisao` (sem a lista detalhada de vizinhos).
 
+## Interface desktop (Electron + React)
+
+Além do CLI, há uma janela gráfica em `desktop/` que chama as **mesmas** funções de `src/pipeline/` — não reimplementa o algoritmo.
+
+```powershell
+cd desktop
+npm install
+npm run dev
+```
+
+Os CSVs são escolhidos pelo diálogo nativo do sistema (qualquer pasta). Detalhes em [`desktop/README.md`](desktop/README.md).
+
 ## Qualidade de código
 
 ```bash
