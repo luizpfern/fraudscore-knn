@@ -82,9 +82,50 @@ npm --version
 npm install
 ```
 
+## Conjuntos de exemplo (`exemplos/`)
+
+A pasta `exemplos/` traz CSVs sintéticos prontos para demonstração e testes. Os valores seguem distribuição log-normal por cliente (não uniforme), os horários legítimos se concentram em 8h–22h, e cada arquivo foi gerado com seed fixa (reproduzível).
+
+`dados/referencia.csv` e `dados/entrada.csv` continuam sendo os **padrões do CLI** (amostras pequenas). Para experimentação real, use os arquivos de `exemplos/`.
+
+### `exemplos/base/` — histórico rotulado (campo `fraude` incluído)
+
+Cinco arquivos, cerca de 60–90 mil linhas cada.
+
+| Arquivo | Padrão | Taxa de fraude |
+| --- | --- | --- |
+| `base-geral.csv` | Mistura de todos os padrões abaixo | 2,5% |
+| `base-fraude-horario.csv` | Fraude concentrada de madrugada | 3% |
+| `base-fraude-valor.csv` | Fraude com valor 3×–10× acima da média do cliente | 3% |
+| `base-fraude-forma-pagamento.csv` | Fraude concentrada em boleto/TED | 3% |
+| `base-fraude-estabelecimento-novo.csv` | Fraude em primeira compra + eletrônicos | 3% |
+
+Comece por `base-geral.csv` se quiser um cenário misto. As outras bases isolam um padrão para o TCC (horário, valor, forma de pagamento, estabelecimento novo).
+
+### `exemplos/entrada/` — transações novas (sem coluna `fraude`)
+
+Poucas linhas cada, para avaliar depois do pré-processamento.
+
+| Arquivo | Conteúdo |
+| --- | --- |
+| `entrada-fraude-evidente.csv` | 8 casos com sinais combinados de risco |
+| `entrada-legitima-evidente.csv` | 8 casos de comportamento normal |
+| `entrada-casos-limitrofes.csv` | 7 casos ambíguos — úteis para testar `k` e o limiar |
+| `entrada-mista-realista.csv` | 12 casos, maioria legítima com poucas suspeitas |
+| `entrada-dados-invalidos.csv` | 8 linhas com erros propositais (valor não numérico, data mal formatada, forma de pagamento inválida, campo vazio, valor negativo) para exercitar o `validador.js` |
+
+Exemplo de fluxo com os conjuntos grandes:
+
+```bash
+npm run preprocess -- --referencia=exemplos/base/base-geral.csv
+npm run analyze -- --entrada=exemplos/entrada/entrada-mista-realista.csv
+```
+
+Na interface desktop, abra o diálogo de arquivo e escolha os CSVs em `exemplos/base/` e `exemplos/entrada/`.
+
 ## Formato dos CSVs de entrada
 
-Os arquivos ficam em `dados/`. A base de referência e o CSV de entrada compartilham as mesmas colunas, **exceto** que o de entrada **não** possui a coluna `fraude`.
+A base de referência e o CSV de entrada compartilham as mesmas colunas, **exceto** que o de entrada **não** possui a coluna `fraude`.
 
 | Campo | Tipo | Observação |
 | --- | --- | --- |
@@ -251,7 +292,7 @@ npm install
 npm run dev
 ```
 
-Os CSVs são escolhidos pelo diálogo nativo do sistema (qualquer pasta). Detalhes em [`desktop/README.md`](desktop/README.md).
+Os CSVs são escolhidos pelo diálogo nativo do sistema (qualquer pasta). Para a demonstração, use `exemplos/base/` e `exemplos/entrada/`. Detalhes em [`desktop/README.md`](desktop/README.md).
 
 ## Qualidade de código
 

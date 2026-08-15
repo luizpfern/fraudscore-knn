@@ -17,7 +17,12 @@ npm install
 npm run dev
 ```
 
-O diálogo nativo escolhe os CSVs em qualquer pasta do computador. Os exemplos `dados/referencia.csv` e `dados/entrada.csv` servem como ponto de partida, mas não são obrigatórios.
+O diálogo nativo escolhe os CSVs em qualquer pasta do computador. Para demonstração, use os conjuntos em `exemplos/`:
+
+- **Base de referência:** `exemplos/base/` (ex.: `base-geral.csv`, ~90 mil linhas, com coluna `fraude`)
+- **Transações novas:** `exemplos/entrada/` (ex.: `entrada-mista-realista.csv`; `entrada-dados-invalidos.csv` testa o validador)
+
+Há também bases isolando um padrão (madrugada, valor alto, boleto/TED, primeira compra + eletrônicos) e entradas evidente/legítima/limítrofe. A lista completa está no [README da raiz](../README.md#conjuntos-de-exemplo-exemplos). `dados/referencia.csv` e `dados/entrada.csv` são só amostras minúsculas do CLI.
 
 Se o npm bloquear scripts de instalação e o Electron não abrir, baixe o binário uma vez:
 
