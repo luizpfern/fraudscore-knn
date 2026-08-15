@@ -1,0 +1,9 @@
+id_transacao,data_hora,valor,forma_pagamento,parcelas,categoria_estabelecimento,canal,id_cliente,id_estabelecimento,primeira_compra_estabelecimento
+TXLEV0000000,2026-05-13T17:54:05,219.3,cartao_credito,1,educacao,online,CLI00029,EST0009,False
+TXLEV0000001,2026-06-24T18:54:48,44.7,pix,1,alimentacao,presencial,CLI00022,EST0014,False
+TXLEV0000002,2026-05-20T09:48:49,102.28,cartao_debito,1,alimentacao,presencial,CLI00009,EST0014,False
+TXLEV0000003,2026-07-25T22:26:57,95.02,pix,1,educacao,presencial,CLI00023,EST0009,False
+TXLEV0000004,2026-06-25T19:49:28,104.62,pix,1,vestuario,online,CLI00021,EST0015,False
+TXLEV0000005,2026-06-06T22:53:59,218.54,cartao_debito,1,alimentacao,presencial,CLI00004,EST0014,False
+TXLEV0000006,2026-05-07T18:18:28,117.98,cartao_credito,1,vestuario,online,CLI00021,EST0015,False
+TXLEV0000007,2026-05-08T12:36:16,130.84,cartao_debito,1,educacao,presencial,CLI00021,EST0012,False

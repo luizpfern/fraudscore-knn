@@ -1,0 +1,9 @@
+id_transacao,data_hora,valor,forma_pagamento,parcelas,categoria_estabelecimento,canal,id_cliente,id_estabelecimento,primeira_compra_estabelecimento
+TXINV0000001,2026-06-10T14:30:00,89.9,pix,1,alimentacao,presencial,CLI00001,EST0001,False
+TXINV0000002,2026-06-10T09:15:00,abc,pix,1,servicos,online,CLI00002,EST0002,False
+TXINV0000003,2026-06-10T20:00:00,230.0,criptomoeda,1,eletronicos,online,CLI00003,EST0003,True
+TXINV0000004,10/06/2026,75.5,cartao_debito,1,farmacia,presencial,CLI00004,EST0004,False
+TXINV0000005,2026-06-10T11:45:00,150.0,cartao_credito,1,vestuario,online,,EST0005,False
+TXINV0000006,2026-06-10T16:20:00,45.0,pix,1,alimentacao,presencial,CLI00006,EST0006,False
+TXINV0000007,2026-06-10T13:10:00,-50.0,boleto,1,servicos,online,CLI00007,EST0007,False
+TXINV0000008,2026-06-10T18:40:00,99.9,pix,1,combustivel,presencial,CLI00008,EST0008,False

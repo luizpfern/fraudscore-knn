@@ -1,0 +1,13 @@
+id_transacao,data_hora,valor,forma_pagamento,parcelas,categoria_estabelecimento,canal,id_cliente,id_estabelecimento,primeira_compra_estabelecimento
+TXMIX0000000,2026-07-14T09:39:46,87.37,cartao_credito,1,entretenimento,online,CLI00005,EST0002,False
+TXMIX0000001,2026-06-28T14:50:05,329.46,pix,1,entretenimento,online,CLI00009,EST0002,False
+TXMIX0000002,2026-05-05T09:12:23,132.97,pix,1,vestuario,presencial,CLI00013,EST0011,False
+TXMIX0000003,2026-05-30T10:53:00,113.35,cartao_debito,1,farmacia,presencial,CLI00029,EST0015,False
+TXMIX0000004,2026-07-20T13:03:49,76.43,pix,1,educacao,online,CLI00005,EST0001,True
+TXMIX0000005,2026-05-01T05:33:54,287.51,boleto,1,entretenimento,presencial,CLI00028,EST0006,True
+TXMIX0000006,2026-06-21T10:23:14,975.53,cartao_credito,1,entretenimento,online,CLI00014,EST0006,False
+TXMIX0000007,2026-07-12T10:01:19,124.69,pix,1,educacao,online,CLI00022,EST0004,False
+TXMIX0000008,2026-07-10T09:30:11,600.92,pix,1,educacao,online,CLI00011,EST0004,False
+TXMIX0000009,2026-05-22T02:04:22,474.35,ted,1,entretenimento,online,CLI00002,EST0009,True
+TXMIX0000010,2026-06-27T20:24:23,146.26,cartao_credito,2,educacao,online,CLI00030,EST0005,False
+TXMIX0000011,2026-05-09T14:00:09,73.25,boleto,1,educacao,online,CLI00017,EST0001,False

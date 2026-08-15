@@ -1,0 +1,8 @@
+id_transacao,data_hora,valor,forma_pagamento,parcelas,categoria_estabelecimento,canal,id_cliente,id_estabelecimento,primeira_compra_estabelecimento
+TXLIM0000000,2026-06-29T18:44:15,137.5,cartao_credito,2,entretenimento,online,CLI00029,EST0003,False
+TXLIM0000001,2026-06-19T04:16:56,499.7,boleto,1,eletronicos,presencial,CLI00023,EST0015,False
+TXLIM0000002,2026-06-28T18:25:04,107.61,pix,1,alimentacao,presencial,CLI00016,EST0008,True
+TXLIM0000003,2026-07-26T18:11:09,305.82,cartao_credito,10,farmacia,presencial,CLI00012,EST0001,True
+TXLIM0000004,2026-05-15T04:27:31,560.63,pix,1,alimentacao,presencial,CLI00024,EST0008,False
+TXLIM0000005,2026-05-04T18:04:37,132.93,boleto,1,alimentacao,presencial,CLI00010,EST0014,False
+TXLIM0000006,2026-06-01T15:30:00,86.42,ted,1,entretenimento,presencial,CLI00017,EST0011,True

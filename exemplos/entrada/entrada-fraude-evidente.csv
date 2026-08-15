@@ -1,0 +1,9 @@
+id_transacao,data_hora,valor,forma_pagamento,parcelas,categoria_estabelecimento,canal,id_cliente,id_estabelecimento,primeira_compra_estabelecimento
+TXFEV0000000,2026-07-21T02:20:43,762.31,boleto,1,vestuario,online,CLI00007,EST0009,True
+TXFEV0000001,2026-07-21T01:09:00,570.27,ted,1,alimentacao,presencial,CLI00015,EST0006,True
+TXFEV0000002,2026-06-11T00:18:55,763.94,cartao_credito,1,servicos,presencial,CLI00030,EST0002,True
+TXFEV0000003,2026-05-09T00:27:25,313.08,boleto,1,alimentacao,online,CLI00010,EST0005,True
+TXFEV0000004,2026-07-06T05:53:44,585.13,pix,1,servicos,online,CLI00004,EST0010,True
+TXFEV0000005,2026-07-12T02:17:56,1164.42,ted,1,entretenimento,online,CLI00001,EST0007,True
+TXFEV0000006,2026-06-14T02:15:24,362.38,cartao_debito,1,servicos,online,CLI00022,EST0010,True
+TXFEV0000007,2026-07-24T05:44:52,788.75,boleto,1,alimentacao,presencial,CLI00030,EST0006,True
